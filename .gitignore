@@ -1,2 +1,2 @@
 fuseki-data/*
-/server/node_modules
+/microservices/node_modules

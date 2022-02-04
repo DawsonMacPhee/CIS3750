@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/DawsonMacPhee/CIS3750/issues"
   },
-  "homepage": "https://github.com/DawsonMacPhee/CIS3750#readme"
+  "homepage": "https://github.com/DawsonMacPhee/CIS3750#readme",
+  "dependencies": {
+    "express": "^4.17.2",
+    "nanoid": "^3.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
 }

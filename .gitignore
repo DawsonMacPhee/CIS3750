@@ -1,2 +1,2 @@
-fuseki-data/*
+neo4j/*
 /microservices/node_modules

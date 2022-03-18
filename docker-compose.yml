@@ -12,3 +12,30 @@ services:
       - ./neo4j/logs:/logs
       - ./neo4j/import:/var/lib/neo4j/import
       - ./neo4j/plugins:/plugins
+  keycloakdb:
+    image: postgres:11
+    ports:
+        - "5406:5432"
+    environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_DB=keycloak
+    volumes:
+        - ./keycloak-data:/var/lib/postgresql/data
+  keycloak:
+    image: jboss/keycloak
+    ports:
+        - "8090:8080"
+    links:
+        - keycloakdb
+    depends_on:
+        - keycloakdb
+    environment:
+        - KEYCLOAK_USER=admin
+        - KEYCLOAK_PASSWORD=admin
+        - DB_USER=postgres
+        - DB_PASSWORD=postgres
+        - DB_VENDOR=postgres
+        - DB_ADDR=keycloakdb
+        - DB_PORT=5432
+        - JDBC_PARAMS='useSSL=false'

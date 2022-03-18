@@ -1,4 +1,5 @@
 neo4j
 keycloak-data
+.dsstore
 /microservices/node_modules
 node_modules

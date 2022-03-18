@@ -1,3 +1,5 @@
-neo4j/*
-/microservices/node_modules
+neo4j
 keycloak-data
+.DS_Store
+/microservices/node_modules
+node_modules

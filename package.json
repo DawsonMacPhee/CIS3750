@@ -1,0 +1,22 @@
+{
+  "name": "cis3750",
+  "version": "1.0.0",
+  "description": "Members: </br> Arnab Sagar </br> Dylan Goodman </br> Benjamin Critoph </br> Dawson Macphee</br>",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DawsonMacPhee/CIS3750.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DawsonMacPhee/CIS3750/issues"
+  },
+  "homepage": "https://github.com/DawsonMacPhee/CIS3750#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}

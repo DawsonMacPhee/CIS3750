@@ -1,12 +1,12 @@
 const express = require('express')
 const app = express()
-const port = 3000
+const port = 8080
 
 app.get('/', (req, res) => {
   res.send("Login Page");
 });
 
-app.get('/', (req, res) => {
+app.get('/dashboard', (req, res) => {
   res.send("Authenticated Page");
 });
 

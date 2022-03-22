@@ -39,3 +39,13 @@ services:
         - DB_ADDR=keycloakdb
         - DB_PORT=5432
         - JDBC_PARAMS='useSSL=false'
+  app:
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - keycloak
+    environment:
+      - NODE_ENV=development
+   

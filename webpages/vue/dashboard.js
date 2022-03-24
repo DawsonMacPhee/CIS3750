@@ -1,7 +1,7 @@
-import GraphStats from `./graph-stats.vue`;
-import GraphDisplay from `./graph-display.vue`;
-import SearchFacet from `./search-facet.vue`;
-import SearchBar from `./search-bar.vue`;
+import GraphStats from `./GraphStats.vue`;
+import GraphDisplay from `./GraphDisplay.vue`;
+import SearchFacet from `./SearchFacet.vue`;
+import SearchBar from `./SearchBar.vue`;
 
 const app = Vue.createApp({
     data() {

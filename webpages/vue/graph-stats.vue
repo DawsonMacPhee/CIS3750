@@ -1,14 +1,23 @@
-export default {
-    components: {
-        graph-stats: {
-            template:
-            `
-            `,
-
-
-            props : {
+<script>
+    export default {
+        data() {
+            return {
 
             }
+        },
+
+
+        props: {
+
+        },
+
+
+        methods: {
+
         }
     }
-}
+</script>
+
+<template></template>
+
+<style></style>

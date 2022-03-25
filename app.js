@@ -26,10 +26,6 @@ app.get('/', (req, res) => {
   res.send("Home Page");
 });
 
-app.get('/dashboard', keycloak.protect(['user','admin']), (req, res) => {
-  res.send("Authenticated Page");
-});
-
 app.listen(port, "0.0.0.0", () => {
   console.log(`App listening on port ${port}`);
 });

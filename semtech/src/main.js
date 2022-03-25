@@ -1,16 +1,22 @@
-import Vue from 'vue'
+import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import authentication from "@/plugins/authentication"
+import { vueKeycloak } from '@baloise/vue-keycloak'
 
-Vue.config.productionTip = false
-Vue.use(authentication)
+const app = createApp(App)
 
-Vue.$keycloak
-  .init({ checkLoginIframe: false })
-  .then(() => {
-    new Vue({
-      router,
-      render: h => h(App)
-    }).$mount('#app')
-  })
+app.use(router)
+app.use(vueKeycloak, {
+    initOptions: {
+      flow: 'standard', // default
+      checkLoginIframe: false, // default
+      onLoad: '', // default
+    },
+    config: {
+      url: 'http://localhost:8090',
+      realm: 'SemTech',
+      clientId: 'SemTechCourtData'
+    }
+})
+
+app.mount('#app')

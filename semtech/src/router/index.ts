@@ -24,15 +24,17 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+    let keycloak = this.$keycloak;
+
     if (to.meta.isAuthenticated) {
       // Get the actual url of the app, it's needed for Keycloak
       const basePath = window.location.toString()
-      if (!this.$keycloak.authenticated) {
+      if (!keycloak.authenticated) {
         // The page is protected and the user is not authenticated. Force a login.
-        this.$keycloak.login({ redirectUri: basePath.slice(0, -1) + to.path })
-      } else if (this.$keycloak.hasResourceRole('user')) {
+        keycloak.login({ redirectUri: basePath.slice(0, -1) + to.path })
+      } else if (keycloak.hasResourceRole('user')) {
         // The user was authenticated, and has the app role
-        this.$keycloak.updateToken(70)
+        keycloak.updateToken(70)
           .then(() => {
             next()
           })

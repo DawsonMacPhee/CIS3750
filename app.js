@@ -23,7 +23,7 @@ const adminAPIController = require('./admin-services.js');
 app.use('/api/admin', adminAPIController);
 
 app.get('/', (req, res) => {
-  res.send("Home Page");
+  res.sendFile(__dirname + "/index.html");
 });
 
 app.listen(port, "0.0.0.0", () => {

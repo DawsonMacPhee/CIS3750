@@ -26,14 +26,13 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     var keycloak = useKeycloak().keycloak;
-    console.log(keycloak);
     if (to.meta.isAuthenticated) {
       // Get the actual url of the app, it's needed for Keycloak
       const basePath = window.location.toString()
       if (!keycloak.authenticated) {
         // The page is protected and the user is not authenticated. Force a login.
         keycloak.login({ redirectUri: basePath.slice(0, -1) + to.path })
-      } else if (keycloak.hasResourceRole('vue-demo-user')) {
+      } else if (keycloak.hasResourceRole('user')) {
         // The user was authenticated, and has the app role
         keycloak.updateToken(70)
           .then(() => {

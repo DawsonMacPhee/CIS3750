@@ -13,7 +13,7 @@ app.use(vueKeycloak, {
       onLoad: '', // default
     },
     config: {
-      url: 'http://localhost:8090',
+      url: 'http://localhost:8090/auth/',
       realm: 'SemTech',
       clientId: 'SemTechCourtData'
     }

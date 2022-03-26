@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import { app } from '../main';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,31 +25,28 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    let keycloak = this.$keycloak;
-
     if (to.meta.isAuthenticated) {
-      // Get the actual url of the app, it's needed for Keycloak
-      const basePath = window.location.toString()
-      if (!keycloak.authenticated) {
-        // The page is protected and the user is not authenticated. Force a login.
-        keycloak.login({ redirectUri: basePath.slice(0, -1) + to.path })
-      } else if (keycloak.hasResourceRole('user')) {
-        // The user was authenticated, and has the app role
-        keycloak.updateToken(70)
-          .then(() => {
-            next()
-          })
-          .catch(err => {
-            console.error(err)
-          })
-      } else {
-        // The user was authenticated, but did not have the correct role
-        // Redirect to an error page
-        next({ name: 'Unauthorized' })
-      }
+        const keycloak = app.config.globalProperties.$keycloak;
+        const basePath = window.location.toString()
+        if (!keycloak.authenticated) {
+            console.log("Logging In");
+            keycloak.login({ redirectUri: basePath.slice(0, -1) + to.path })
+        } else if (keycloak.hasRealmRole('user')) {
+            console.log("Authenticated");
+            keycloak.updateToken(70)
+            .then(() => {
+                next()
+            })
+            .catch(err => {
+                console.error(err)
+            })
+        } else {
+            console.log("Wrong Permissions");
+            next({ name: 'Unauthorized' })
+        }
     } else {
-      // This page did not require authentication
-      next()
+        console.log("No Auth");
+        next()
     }
 })
 

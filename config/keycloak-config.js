@@ -3,12 +3,12 @@ var Keycloak = require('keycloak-connect');
 let _keycloak;
 
 var keycloakConfig = {
-    clientId: 'SemTechCourtData',
+    clientId: 'CourtData-Serverside',
     bearerOnly: true,
     serverUrl: 'http://localhost:8090/auth',
     realm: 'SemTech',
     credentials: {
-        secret: 'AKRSvJpsBc2VpiWD3khJEjZgd9qWVEwy'
+        secret: 'xmxXBNDTZ9WsVpFUlkhQHU5G3UeYvoiT'
     }
 };
 

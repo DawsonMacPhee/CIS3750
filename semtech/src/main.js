@@ -15,7 +15,7 @@ app.use(vueKeycloak, {
     config: {
       url: 'http://localhost:8090/auth/',
       realm: 'SemTech',
-      clientId: 'SemTechCourtData'
+      clientId: 'CourtData-Clientside'
     }
 })
 

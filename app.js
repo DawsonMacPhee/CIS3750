@@ -6,7 +6,7 @@ const app = express();
 const port = 8080;
 
 app.use(session({
-  secret: 'AKRSvJpsBc2VpiWD3khJEjZgd9qWVEwy', 
+  secret: 'xmxXBNDTZ9WsVpFUlkhQHU5G3UeYvoiT', 
   resave: false, 
   saveUninitialized: true, 
   store: memoryStore 

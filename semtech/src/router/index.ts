@@ -34,7 +34,7 @@ router.beforeEach((to, from, next) => {
         } else {
             if (!keycloak.authenticated) {
                 console.log("Logging In");
-                keycloak.login({ redirectUri: basePath.split("/")[0] + to.path });
+                keycloak.login({ redirectUri: basePath.slice(0, -1) + to.path });
             } else if (keycloak.hasRealmRole('user')) {
                 console.log("Authenticated");
                 keycloak.updateToken(70)

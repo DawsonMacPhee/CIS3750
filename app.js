@@ -1,19 +1,18 @@
 const express = require('express');
-const session = require('express-session')
-const memoryStore = new session.MemoryStore();
+const session = require('express-session');
 
 const app = express();
 const port = 8080;
 
+var memoryStore = new session.MemoryStore();
 app.use(session({
-  secret: 'xmxXBNDTZ9WsVpFUlkhQHU5G3UeYvoiT', 
-  resave: false, 
-  saveUninitialized: true, 
-  store: memoryStore 
+  secret: 'xmxXBNDTZ9WsVpFUlkhQHU5G3UeYvoiT',
+  resave: false,
+  saveUninitialized: true,
+  store: memoryStore
 }));
 
 const keycloak = require('./keycloak-config.js').initKeycloak(memoryStore);
-
 app.use(keycloak.middleware());
 
 const userAPIController = require('./user-services.js');

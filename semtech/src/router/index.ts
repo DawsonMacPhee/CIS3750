@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import { app } from '../main';
+import type { KeycloakInstance } from 'keycloak-js';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,37 +25,43 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to, from, next) => {
-    if (to.meta.isAuthenticated) {
-        const keycloak = app.config.globalProperties.$keycloak;
-        const basePath = window.location.toString()
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms))
+}
 
-        if (keycloak.ready != null && keycloak.ready == false) {
-            next({name: "home"})
+router.beforeEach(async (to, from) => {
+    if (to.meta.isAuthenticated) {
+        var keycloak = app.config.globalProperties.$keycloak;
+        const basePath = new URL(window.location.toString());
+
+        while (keycloak.createLoginUrl === null) {
+            await sleep(100)
+        }
+
+        if (keycloak.keycloak != null) {
+            keycloak = keycloak.keycloak;
+        }
+
+        if (!keycloak.authenticated) {
+            keycloak.login({ redirectUri: basePath.protocol + "//" + basePath.host + to.path });
+        } else if (keycloak.hasRealmRole('user')) {
+            console.log("Authenticated");
+            console.log(keycloak);
+            keycloak.updateToken(70)
+            .then(() => {
+                return true;
+            })
+            .catch(err => {
+                console.error(err);
+                return {name: "home"};
+            });
         } else {
-            if (!keycloak.authenticated) {
-                console.log("Logging In");
-                keycloak.login({ redirectUri: basePath.slice(0, -1) + to.path });
-            } else if (keycloak.hasRealmRole('user')) {
-                console.log("Authenticated");
-                keycloak.updateToken(70)
-                .then(() => {
-                    next()
-                })
-                .catch(err => {
-                    console.error(err)
-                })
-            } else {
-                console.log("Wrong Permissions");
-                next({name: "home"})
-            }
+            return {name: "home"};
         }
 
     } else {
-        console.log("No Auth");
-        next()
+        return true;
     }
-
-})
+});
 
 export default router

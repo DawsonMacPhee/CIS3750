@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import { app } from '../main';
-import type { KeycloakInstance } from 'keycloak-js';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,16 +10,16 @@ const router = createRouter({
       name: 'home',
       component: HomeView,
       meta: {
-        isAuthenticated: false
+        authentication: 'none'
       }
     },
     {
-      path: '/about',
-      name: 'about',
+      path: '/dashboard',
+      name: 'dashboard',
       meta: {
-        isAuthenticated: true
+        authentication: 'user'
       },
-      component: () => import('../views/AboutView.vue')
+      component: () => import('../views/DashboardView.vue')
     }
   ]
 })
@@ -30,7 +29,7 @@ function sleep(ms) {
 }
 
 router.beforeEach(async (to, from) => {
-    if (to.meta.isAuthenticated) {
+    if (to.meta.authentication != 'none') {
         var keycloak = app.config.globalProperties.$keycloak;
         const basePath = new URL(window.location.toString());
 
@@ -43,10 +42,8 @@ router.beforeEach(async (to, from) => {
         }
 
         if (!keycloak.authenticated) {
-            keycloak.login({ redirectUri: basePath.protocol + "//" + basePath.host + to.path });
-        } else if (keycloak.hasRealmRole('user')) {
-            console.log("Authenticated");
-            console.log(keycloak);
+            keycloak.login({ redirectUri: basePath.protocol + '//' + basePath.host + to.path });
+        } else if (keycloak.hasRealmRole(to.meta.authentication)) {
             keycloak.updateToken(70)
             .then(() => {
                 return true;

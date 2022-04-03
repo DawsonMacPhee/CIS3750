@@ -17,7 +17,6 @@ app.use(VueKeycloakJs, {
         realm: 'SemTech'
     },
     onReady (keycloak: VueKeycloakInstance) {
-        console.log('Keycloak ready', keycloak)
         app.config.globalProperties.$keycloak = keycloak;
     }
 });

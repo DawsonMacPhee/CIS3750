@@ -1,0 +1,11 @@
+@font-face {
+    font-family: main-text;
+    src: url(CarroisGothic-Regular.ttf);
+}
+
+.logo {
+    position: absolute;
+    right: 10px;
+    width: 100px;
+    cursor: pointer;
+}

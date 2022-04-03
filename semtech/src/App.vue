@@ -4,10 +4,10 @@
 
 <template>
     <header>
-        <nav>
+        <!--<nav>
             <RouterLink to="/">Home</RouterLink>
             <RouterLink to="/dashboard">Dashboard</RouterLink>
-        </nav>
+        </nav>-->
     </header>
 
     <RouterView />

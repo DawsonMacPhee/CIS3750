@@ -4,6 +4,7 @@ WORKDIR /home/node/app
 COPY --chown=node:node ./app.js ./
 COPY --chown=node:node ./config ./
 COPY --chown=node:node ./microservices ./
+COPY --chown=node:node ./semtech/dist ./
 USER node
 RUN npm install express
 RUN npm install express-session

@@ -9,7 +9,6 @@ USER node
 RUN npm install express
 RUN npm install express-session
 RUN npm install keycloak-connect
-RUN npm install request
-EXPOSE 5000
+RUN npm install axios
 
 CMD ["node", "app.js"]

@@ -1,8 +1,11 @@
 const express = require('express');
 const session = require('express-session');
+var cors = require('cors');
 
 const app = express();
 const port = 8080;
+
+app.use(cors());
 
 var memoryStore = new session.MemoryStore();
 app.use(session({

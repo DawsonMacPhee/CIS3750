@@ -8,7 +8,8 @@ COPY --chown=node:node ./semtech/dist ./
 USER node
 RUN npm install express
 RUN npm install express-session
+RUN npm install cors
 RUN npm install keycloak-connect
-EXPOSE 5000
+RUN npm install axios
 
 CMD ["node", "app.js"]

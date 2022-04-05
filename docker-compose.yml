@@ -1,12 +1,22 @@
 version: "3.9"
 services:
+  app:
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    links:
+      - neo4j
+    depends_on:
+      - keycloak
+      - neo4j
   neo4j:
     image: "neo4j:3.5.2"
     ports:
       - "7474:7474"
       - "7687:7687"
     environment:
-      - NEO4J_AUTH=neo4j/test
+      - NEO4J_AUTH=none
     volumes:
       - ./neo4j/data:/data
       - ./neo4j/logs:/logs
@@ -39,13 +49,4 @@ services:
         - DB_ADDR=keycloakdb
         - DB_PORT=5432
         - JDBC_PARAMS='useSSL=false'
-  app:
-    build:
-      context: .
-    ports:
-      - "8080:8080"
-    depends_on:
-      - keycloak
-    environment:
-      - NODE_ENV=development
    

@@ -4,7 +4,7 @@
 
 <template>
     <main>
-        <img class="logo" src="@/assets/logo.jpg">
+        <img class="logo" src="@/assets/main_icon.png">
         <div id="wrapper">
             <div id="content">
                 <h1 id="title"> Welcome to ... </h1>
@@ -17,8 +17,8 @@
                 <RouterLink id="login-link" to="/dashboard"><span id="login">Create Account/Login</span></RouterLink>
             </div>
             <div id="graphs">
-                <img class="graph-size" src="@/assets/graph1.jpg">
-                <img class="graph-size" src="@/assets/graph2.jpg">
+                <img class="graph-size" src="@/assets/graph1.png">
+                <img class="graph-size" src="@/assets/graph2.png">
             </div>
         </div>
 

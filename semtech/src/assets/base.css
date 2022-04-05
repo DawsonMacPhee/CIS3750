@@ -3,9 +3,18 @@
     src: url(CarroisGothic-Regular.ttf);
 }
 
+body {
+    margin: 0px;
+}
+
 .logo {
     position: absolute;
     right: 10px;
     width: 100px;
     cursor: pointer;
+}
+
+.content-title {
+    font-family: main-text;
+    text-align: center;
 }

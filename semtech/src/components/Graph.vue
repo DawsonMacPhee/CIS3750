@@ -1,6 +1,7 @@
 <script setup lang="ts">
-    import { onMounted } from 'vue'
-    import cytoscape from 'cytoscape'
+    import { onMounted } from 'vue';
+    import cytoscape from 'cytoscape';
+    import fcose from 'cytoscape-fcose';
 
     onMounted(() => {
 
@@ -9,6 +10,7 @@
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send(null);
         xhr.onload = function() {
+            cytoscape.use(fcose);
             var cy = cytoscape({
                 container: document.getElementById('graph-container') ,
 
@@ -25,23 +27,27 @@
                             'color': 'white'
                         }
                     },
-
                     {
-                    selector: 'edge',
-                    style: {
-                        'width': 3,
-                        'line-color': 'black',
-                        'target-arrow-color': 'black',
-                        'target-arrow-shape': 'triangle',
-                        'curve-style': 'bezier',
-                        'label': 'data(label)',
-                        'edge-text-rotation': 'autorotate',
-                        'text-margin-y': '-12px',
-                        'color': 'white'
+                        selector: 'edge',
+                        style: {
+                            'width': 3,
+                            'line-color': 'black',
+                            'target-arrow-color': 'black',
+                            'target-arrow-shape': 'triangle',
+                            'curve-style': 'bezier',
+                            'label': 'data(label)',
+                            'edge-text-rotation': 'autorotate',
+                            'text-margin-y': '-12px',
+                            'color': 'white'
+                        }
                     }
-                }
-            ]
-        });   
+                ],
+
+                layout: {
+                    name: 'fcose',
+                    idealEdgeLength: 300
+                },
+            });   
         }
     });
 </script>

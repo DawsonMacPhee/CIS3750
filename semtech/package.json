@@ -10,6 +10,7 @@
   "dependencies": {
     "@dsb-norge/vue-keycloak-js": "^2.1.3-beta",
     "cytoscape": "^3.21.0",
+    "cytoscape-fcose": "^2.1.0",
     "keycloak-js": "^16.1.1",
     "vue": "^3.2.31",
     "vue-router": "^4.0.12"

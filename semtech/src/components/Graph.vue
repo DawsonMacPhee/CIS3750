@@ -43,7 +43,7 @@
 
                 layout: {
                     name: 'fcose',
-                    idealEdgeLength: 300
+                    idealEdgeLength: 250
                 },
             });  
         }

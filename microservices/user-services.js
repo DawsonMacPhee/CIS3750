@@ -12,7 +12,7 @@ router.get('/browse', function(req, res){
     axios.post('http://neo4j:7474/db/data/transaction/commit', {
         "statements": [
             {
-                "statement": "Match (n)-[r]->(m) Return ID(n),n.name,ID(m),m.name,type(r)"
+                "statement": "Match (n)-[r]->(m) Return ID(n), n.name, labels(n), ID(m), m.name, labels(m), type(r)"
             }
         ]
     }).then(function (response) {
@@ -22,14 +22,14 @@ router.get('/browse', function(req, res){
         var i = 0;
         for (const row of response.data.results[0].data) {
             if (!cytoIds.includes(row.row[0])) {
-                cytoList.push({data: {id: row.row[0], label: row.row[1]}});
+                cytoList.push({data: {id: row.row[0], label: row.row[1], type: row.row[2][0]}});
                 cytoIds.push(row.row[0]);
             }
-            if (!cytoIds.includes(row.row[2])) {
-                cytoList.push({data: {id: row.row[2], label: row.row[3]}});
-                cytoIds.push(row.row[2]);
+            if (!cytoIds.includes(row.row[3])) {
+                cytoList.push({data: {id: row.row[3], label: row.row[4], type: row.row[5][0]}});
+                cytoIds.push(row.row[3]);
             }
-            cytoList.push({data: {id: i + "r", label: row.row[4], source: row.row[0], target: row.row[2]}});
+            cytoList.push({data: {id: i + "r", label: row.row[6], source: row.row[0], target: row.row[3]}});
             i++;
         }
 

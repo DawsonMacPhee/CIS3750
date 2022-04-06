@@ -5,14 +5,14 @@
 
     export default {
         props: {
-            nodeInfo: String
+            nodeInfo: Object
         },
         mounted() {
             cytoscape.use(fcose);
             var cy = cytoscape({
                 container: document.getElementById('graph-container') ,
 
-                elements: JSON.parse(this.nodeInfo),
+                elements: this.nodeInfo,
 
                 style: [
                     {

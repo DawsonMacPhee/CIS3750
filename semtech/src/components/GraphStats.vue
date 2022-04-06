@@ -1,9 +1,9 @@
 <script lang="ts">
     export default {
         props: {
-            nodes: String,
-            unique: String,
-            relations: String
+            nodes: Number,
+            unique: Number,
+            relations: Number
         }
     }
 </script>

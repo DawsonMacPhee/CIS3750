@@ -1,20 +1,18 @@
-<script setup lang="ts">
+<script lang="ts">
     import { onMounted } from 'vue';
     import cytoscape from 'cytoscape';
     import fcose from 'cytoscape-fcose';
 
-    onMounted(() => {
-
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "http://localhost:8080/api/user/browse", true);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.send(null);
-        xhr.onload = function() {
+    export default {
+        props: {
+            nodeInfo: String
+        },
+        mounted() {
             cytoscape.use(fcose);
             var cy = cytoscape({
                 container: document.getElementById('graph-container') ,
 
-                elements: JSON.parse(this.responseText),
+                elements: JSON.parse(this.nodeInfo),
 
                 style: [
                     {
@@ -47,9 +45,9 @@
                     name: 'fcose',
                     idealEdgeLength: 300
                 },
-            });   
+            });  
         }
-    });
+    }
 </script>
 
 <template>

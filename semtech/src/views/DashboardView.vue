@@ -7,7 +7,8 @@
     export default {
         data() {
             return {
-                nodes: "{}"
+                nodes: "[]",
+                uniqueTypes: []
             }
         },
         beforeMount() {
@@ -17,6 +18,39 @@
             xhr.send(null);
 
             this.nodes = xhr.responseText;
+        },
+        computed: {
+            numNodes() {
+                var count = 0;
+                for (const row of JSON.parse(this.nodes)) {
+                    if (typeof row.data.id != "string") {
+                        count++;
+                    }
+                }
+
+                return count;
+            },
+            numUnique() {
+                var count = 0;
+                for (const row of JSON.parse(this.nodes)) {
+                    if (typeof row.data.id != "string" && !this.uniqueTypes.includes(row.data.type)) {
+                        this.uniqueTypes.push(row.data.type);
+                        count++;
+                    }
+                }
+
+                return count;
+            },
+            numRel() {
+                var count = 0;
+                for (const row of JSON.parse(this.nodes)) {
+                    if (typeof row.data.id == "string") {
+                        count++;
+                    }
+                }
+
+                return count;
+            }      
         },
         components: {
             Sidebar,
@@ -38,7 +72,7 @@
                 <div id="dashboard-container">
                     <div id="dashboard-info">
                         <DashboardFilter />
-                        <GraphStats />
+                        <GraphStats :nodes="numNodes" :unique="numUnique" :relations="numRel"/>
                     </div>
                     <div id="dashboard-graph">
                         <input id="searchbar" type="text" placeholder="Search..."/>

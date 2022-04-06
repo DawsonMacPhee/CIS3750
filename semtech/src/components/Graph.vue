@@ -1,18 +1,18 @@
-<script setup lang="ts">
-    import { onMounted } from 'vue'
-    import cytoscape from 'cytoscape'
+<script lang="ts">
+    import { onMounted } from 'vue';
+    import cytoscape from 'cytoscape';
+    import fcose from 'cytoscape-fcose';
 
-    onMounted(() => {
-
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "http://localhost:8080/api/user/browse", true);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.send(null);
-        xhr.onload = function() {
+    export default {
+        props: {
+            nodeInfo: String
+        },
+        mounted() {
+            cytoscape.use(fcose);
             var cy = cytoscape({
                 container: document.getElementById('graph-container') ,
 
-                elements: JSON.parse(this.responseText),
+                elements: JSON.parse(this.nodeInfo),
 
                 style: [
                     {
@@ -25,25 +25,29 @@
                             'color': 'white'
                         }
                     },
-
                     {
-                    selector: 'edge',
-                    style: {
-                        'width': 3,
-                        'line-color': 'black',
-                        'target-arrow-color': 'black',
-                        'target-arrow-shape': 'triangle',
-                        'curve-style': 'bezier',
-                        'label': 'data(label)',
-                        'edge-text-rotation': 'autorotate',
-                        'text-margin-y': '-12px',
-                        'color': 'white'
+                        selector: 'edge',
+                        style: {
+                            'width': 3,
+                            'line-color': 'black',
+                            'target-arrow-color': 'black',
+                            'target-arrow-shape': 'triangle',
+                            'curve-style': 'bezier',
+                            'label': 'data(label)',
+                            'edge-text-rotation': 'autorotate',
+                            'text-margin-y': '-12px',
+                            'color': 'white'
+                        }
                     }
-                }
-            ]
-        });   
+                ],
+
+                layout: {
+                    name: 'fcose',
+                    idealEdgeLength: 300
+                },
+            });  
         }
-    });
+    }
 </script>
 
 <template>

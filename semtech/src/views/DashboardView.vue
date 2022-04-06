@@ -1,8 +1,30 @@
-<script setup lang="ts">
-    import Sidebar from '@/components/Sidebar.vue'
-    import DashboardFilter from '@/components/DashboardFilter.vue'
-    import GraphStats from '@/components/GraphStats.vue'
-    import Graph from '@/components/Graph.vue'
+<script lang="ts">
+    import Sidebar from '@/components/Sidebar.vue';
+    import DashboardFilter from '@/components/DashboardFilter.vue';
+    import GraphStats from '@/components/GraphStats.vue';
+    import Graph from '@/components/Graph.vue';
+
+    export default {
+        data() {
+            return {
+                nodes: "{}"
+            }
+        },
+        beforeMount() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "http://localhost:8080/api/user/browse", false);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(null);
+
+            this.nodes = xhr.responseText;
+        },
+        components: {
+            Sidebar,
+            DashboardFilter,
+            GraphStats,
+            Graph
+        }
+    }
 </script>
 
 <template>
@@ -20,7 +42,7 @@
                     </div>
                     <div id="dashboard-graph">
                         <input id="searchbar" type="text" placeholder="Search..."/>
-                        <Graph />
+                        <Graph :node-info="nodes" />
                     </div>
                 </div>
             </div>

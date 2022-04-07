@@ -7,6 +7,11 @@
         props: {
             nodeInfo: Object
         },
+        watch: { 
+      	    nodeInfo: function(newVal, oldVal) {
+                console.log('Prop changed: ', newVal, ' | was: ', oldVal);
+            }
+        },
         mounted() {
             cytoscape.use(fcose);
             var cy = cytoscape({

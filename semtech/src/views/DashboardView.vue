@@ -63,7 +63,16 @@
         },
         methods: {
             applySearch() {
-                
+                if (this.search == "") {
+                    this.displayedNodes = this.nodes;
+                } else {
+                    this.displayedNodes = [];
+                    console.log(this.displayedNodes);
+                }
+
+                for (const row of this.displayedNodes) {
+
+                }
             }
         },
         components: {
@@ -77,9 +86,6 @@
 
 <template>
     <main>
-        <p>{{numNodes}}</p>
-        <p>{{numUnique}}</p>
-        <p>{{numRel}}</p>
         <img class="logo" src="@/assets/main_icon.png">
         <div id="dashboard-wrapper">
             <Sidebar />

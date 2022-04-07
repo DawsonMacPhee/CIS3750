@@ -15,6 +15,7 @@
         },
         watch: { 
       	    nodeInfo: function(newVal, oldVal) {
+                console.log(newVal);
                 this.cy.json({ elements: newVal });
                 this.cy.layout({
                     name: 'fcose',

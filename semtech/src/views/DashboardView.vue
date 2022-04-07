@@ -10,6 +10,7 @@
                 nodes: [],
                 displayedNodes: [],
                 uniqueTypes: [],
+                filteredIds: [],
                 search: ""
             }
         },
@@ -64,15 +65,35 @@
         },
         methods: {
             applySearch() {
+                var _this = this;
+                this.filteredIds = [];
+
                 if (this.search == "") {
                     this.displayedNodes = this.nodes;
-                } else {
-                    this.displayedNodes = [];
                 }
 
-                for (const row of this.displayedNodes) {
+                var results = this.nodes.filter(function(value){ 
+                    if (!value.data.id.includes("r") && value.data.label.toLowerCase().includes(_this.search.toLowerCase())){
+                        _this.filteredIds.push(value.data.id);
+                        return true;
+                    } else if (value.data.id.includes("r")) {
+                        return true;
+                    }
+                    return false;
+                });
 
-                }
+                var results = results.filter(function(value){ 
+                    if (value.data.id.includes("r")){
+                        if (_this.filteredIds.includes(value.data.source) && _this.filteredIds.includes(value.data.target)) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                    return true;
+                });
+
+                this.displayedNodes = results;
             }
         },
         components: {
@@ -98,7 +119,7 @@
                         <GraphStats :nodes="numNodes" :unique="numUnique" :relations="numRel"/>
                     </div>
                     <div id="dashboard-graph">
-                        <input id="searchbar" type="text" v-model="search" v-on:keyup="applySearch()" placeholder="Search..."/>
+                        <input id="searchbar" type="text" v-model="search" v-on:keyup.enter="applySearch()" placeholder="Search..."/>
                         <Graph :node-info="displayedNodes" />
                     </div>
                 </div>

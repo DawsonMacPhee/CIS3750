@@ -9,7 +9,9 @@
             return {
                 nodes: [],
                 displayedNodes: [],
-                uniqueTypes: []
+                uniqueTypes: [],
+                filteredIds: [],
+                search: ""
             }
         },
         beforeMount() {
@@ -19,24 +21,30 @@
             xhr.send(null);
 
             this.nodes = JSON.parse(xhr.responseText);
+            this.displayedNodes = this.nodes;
         },
         computed: {
             numNodes() {
                 var count = 0;
-                for (const row of this.nodes) {
-                    if (typeof row.data.id != "string") {
-                        count++;
+                if (this.displayedNodes.length != 0 && typeof this.displayedNodes[0].data.id == "string") {
+                    for (const row of this.displayedNodes) {
+                        if (!row.data.id.includes("r")) {
+                            count++;
+                        }
                     }
                 }
-
+                
                 return count;
             },
             numUnique() {
                 var count = 0;
-                for (const row of this.nodes) {
-                    if (typeof row.data.id != "string" && !this.uniqueTypes.includes(row.data.type)) {
-                        this.uniqueTypes.push(row.data.type);
-                        count++;
+                this.uniqueTypes = [];
+                if (this.displayedNodes.length != 0 && typeof this.displayedNodes[0].data.id == "string") {
+                    for (const row of this.displayedNodes) {
+                        if (!row.data.id.includes("r") && !this.uniqueTypes.includes(row.data.type)) {
+                            this.uniqueTypes.push(row.data.type);
+                            count++;
+                        }
                     }
                 }
 
@@ -44,9 +52,11 @@
             },
             numRel() {
                 var count = 0;
-                for (const row of this.nodes) {
-                    if (typeof row.data.id == "string") {
-                        count++;
+                if (this.displayedNodes.length != 0 && typeof this.displayedNodes[0].data.id == "string") {
+                    for (const row of this.displayedNodes) {
+                        if (row.data.id.includes("r")) {
+                            count++;
+                        }
                     }
                 }
 
@@ -54,7 +64,37 @@
             }      
         },
         methods: {
+            applySearch() {
+                var _this = this;
+                this.filteredIds = [];
 
+                if (this.search == "") {
+                    this.displayedNodes = this.nodes;
+                }
+
+                var results = this.nodes.filter(function(value){ 
+                    if (!value.data.id.includes("r") && value.data.label.toLowerCase().includes(_this.search.toLowerCase())){
+                        _this.filteredIds.push(value.data.id);
+                        return true;
+                    } else if (value.data.id.includes("r")) {
+                        return true;
+                    }
+                    return false;
+                });
+
+                var results = results.filter(function(value){ 
+                    if (value.data.id.includes("r")){
+                        if (_this.filteredIds.includes(value.data.source) && _this.filteredIds.includes(value.data.target)) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                    return true;
+                });
+
+                this.displayedNodes = results;
+            }
         },
         components: {
             Sidebar,
@@ -79,8 +119,8 @@
                         <GraphStats :nodes="numNodes" :unique="numUnique" :relations="numRel"/>
                     </div>
                     <div id="dashboard-graph">
-                        <input id="searchbar" type="text" placeholder="Search..."/>
-                        <Graph :node-info="nodes" />
+                        <input id="searchbar" type="text" v-model="search" v-on:keyup.enter="applySearch()" placeholder="Search..."/>
+                        <Graph :node-info="displayedNodes" />
                     </div>
                 </div>
             </div>

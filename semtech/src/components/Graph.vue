@@ -4,12 +4,28 @@
     import fcose from 'cytoscape-fcose';
 
     export default {
+        data() {
+            return {
+                cy: {},
+                layout: {}
+            }
+        },
         props: {
             nodeInfo: Object
         },
+        watch: { 
+      	    nodeInfo: function(newVal, oldVal) {
+                console.log(newVal);
+                this.cy.json({ elements: newVal });
+                this.cy.layout({
+                    name: 'fcose',
+                    idealEdgeLength: 250
+                }).run();
+            }
+        },
         mounted() {
             cytoscape.use(fcose);
-            var cy = cytoscape({
+            this.cy = cytoscape({
                 container: document.getElementById('graph-container') ,
 
                 elements: this.nodeInfo,
@@ -45,7 +61,7 @@
                     name: 'fcose',
                     idealEdgeLength: 250
                 },
-            });  
+            });
         }
     }
 </script>

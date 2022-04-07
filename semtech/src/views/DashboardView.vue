@@ -152,6 +152,7 @@
         width: 80%;
         height: 80%;
         margin-left: 10%;
+        overflow: hidden;
     }
 
     #dashboard-info {

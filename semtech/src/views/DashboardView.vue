@@ -9,6 +9,7 @@
             return {
                 nodes: [],
                 displayedNodes: [],
+                filteredNodes: [],
                 uniqueTypes: [],
                 filteredIds: [],
                 search: ""
@@ -22,6 +23,7 @@
 
             this.nodes = JSON.parse(xhr.responseText);
             this.displayedNodes = this.nodes;
+            this.filteredNodes = this.displayedNodes;
         },
         computed: {
             numNodes() {
@@ -70,6 +72,7 @@
 
                 if (this.search == "") {
                     this.displayedNodes = this.nodes;
+                    this.filteredNodes = this.displayedNodes;
                 }
 
                 var results = this.nodes.filter(function(value){ 
@@ -94,6 +97,7 @@
                 });
 
                 this.displayedNodes = results;
+                this.filteredNodes = this.displayedNodes;
             }
         },
         components: {
@@ -115,7 +119,7 @@
 
                 <div id="dashboard-container">
                     <div id="dashboard-info">
-                        <DashboardFilter />
+                        <DashboardFilter :node-info="filteredNodes" />
                         <GraphStats :nodes="numNodes" :unique="numUnique" :relations="numRel"/>
                     </div>
                     <div id="dashboard-graph">
@@ -148,6 +152,7 @@
         width: 80%;
         height: 80%;
         margin-left: 10%;
+        overflow: hidden;
     }
 
     #dashboard-info {

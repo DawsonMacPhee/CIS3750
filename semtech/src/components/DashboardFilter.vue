@@ -10,17 +10,18 @@
             nodeInfo: Object
         },
         watch: { 
-      	    filterVal: function(newVal, oldVal) {
-                this.filterGraph();
-            },
             nodeInfo: function(newVal, oldVal) {
-                this.filterGraph();
+                this.filterGraph(this.filterVal);
             }
         },
         methods: {
-            filterGraph() {
+            filterGraph(checkValue) {
+                if (this.filterVal == checkValue) {
+                    this.filterVal = "";
+                    checkValue = "";
+                }
 
-                if (this.filterVal == "") {
+                if (this.filterVal == "" && checkValue == "") {
                     this.$parent.displayedNodes = this.nodeInfo;
                     return;
                 }
@@ -29,7 +30,7 @@
                 this.filteredIds = [];
 
                 var results = this.nodeInfo.filter(function(value){ 
-                    if (!value.data.id.includes("r") && value.data.type == _this.filterVal){
+                    if (!value.data.id.includes("r") && value.data.type == checkValue){
                         _this.filteredIds.push(value.data.id);
                         return true;
                     } else if (value.data.id.includes("r")) {
@@ -59,16 +60,16 @@
     <div id="filter-container">
         <h1 id="filter-title">Filters</h1>
 
-        <input type="radio" id="cases" value="Case" v-model="filterVal">
+        <input type="radio" id="cases" value="Case" v-on:click="filterGraph('Case')"  v-model="filterVal">
         <label class="filter-info" for="cases">Cases</label><br/>
 
-        <input type="radio" id="parties" value="Party" v-model="filterVal">
+        <input type="radio" id="parties" value="Party" v-on:click="filterGraph('Party')"  v-model="filterVal">
         <label class="filter-info" for="parties">Parties</label><br/>
 
-        <input type="radio" id="judges" value="Judge" v-model="filterVal">
+        <input type="radio" id="judges" value="Judge" v-on:click="filterGraph('Judge')"  v-model="filterVal">
         <label class="filter-info" for="judges">Judges</label><br/>
 
-        <input type="radio" id="attorneys" value="Attorney" v-model="filterVal">
+        <input type="radio" id="attorneys" value="Attorney" v-on:click="filterGraph('Attorney')"  v-model="filterVal">
         <label class="filter-info" for="attorneys">Attorneys</label>
     </div>
 </template>

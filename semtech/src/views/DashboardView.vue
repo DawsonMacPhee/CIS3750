@@ -25,7 +25,7 @@
         computed: {
             numNodes() {
                 var count = 0;
-                if (typeof this.displayedNodes[0].data.id == "string") {
+                if (this.displayedNodes.length != 0 && typeof this.displayedNodes[0].data.id == "string") {
                     for (const row of this.displayedNodes) {
                         if (!row.data.id.includes("r")) {
                             count++;
@@ -37,7 +37,8 @@
             },
             numUnique() {
                 var count = 0;
-                if (typeof this.displayedNodes[0].data.id == "string") {
+                this.uniqueTypes = [];
+                if (this.displayedNodes.length != 0 && typeof this.displayedNodes[0].data.id == "string") {
                     for (const row of this.displayedNodes) {
                         if (!row.data.id.includes("r") && !this.uniqueTypes.includes(row.data.type)) {
                             this.uniqueTypes.push(row.data.type);
@@ -50,7 +51,7 @@
             },
             numRel() {
                 var count = 0;
-                if (typeof this.displayedNodes[0].data.id == "string") {
+                if (this.displayedNodes.length != 0 && typeof this.displayedNodes[0].data.id == "string") {
                     for (const row of this.displayedNodes) {
                         if (row.data.id.includes("r")) {
                             count++;
@@ -67,7 +68,6 @@
                     this.displayedNodes = this.nodes;
                 } else {
                     this.displayedNodes = [];
-                    console.log(this.displayedNodes);
                 }
 
                 for (const row of this.displayedNodes) {
